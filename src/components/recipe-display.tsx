@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { RecipeData } from '@/app/actions';
+import type { GenerateRecipeFromIngredientsOutput } from '@/ai/flows/generate-recipe-from-ingredients';
 import { Separator } from './ui/separator';
 
 const formatTextBlock = (text: string | undefined) => {
@@ -49,8 +49,8 @@ const formatInstructions = (text: string | undefined) => {
   );
 };
 
-export function RecipeDisplay({ recipe }: { recipe: RecipeData }) {
-  const nutritionalInfo = recipe.curatedNutritionalInfo || recipe.nutritionalInformation;
+export function RecipeDisplay({ recipe }: { recipe: GenerateRecipeFromIngredientsOutput }) {
+  const nutritionalInfo = recipe.nutritionalInformation;
 
   return (
     <Card className="shadow-lg animate-in fade-in-0 zoom-in-95 duration-500">

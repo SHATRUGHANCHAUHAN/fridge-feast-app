@@ -27,8 +27,7 @@ const GenerateRecipeFromIngredientsOutputSchema = z.object({
   instructions: z.string().describe('Step-by-step instructions for preparing the recipe.'),
   nutritionalInformation: z
     .string()
-    .optional()
-    .describe('Nutritional information for the recipe, if available.'),
+    .describe('Nutritional information for the recipe.'),
 });
 
 export type GenerateRecipeFromIngredientsOutput = z.infer<
@@ -49,9 +48,8 @@ const prompt = ai.definePrompt({
 
   Ingredients: {{{ingredients}}}
 
-  Consider common cooking techniques and provide a recipe name, ingredient list, step-by-step instructions, and any available nutritional information.
-  Format the nutritional information so that it is easily readable.
-  If no nutritional information is available, leave that field blank.
+  Consider common cooking techniques and provide a recipe name, ingredient list, step-by-step instructions, and nutritional information.
+  The nutritional information should be concise and easy to understand.
   Do not make up any ingredients that were not provided.
   The response must be valid JSON.`,
 });

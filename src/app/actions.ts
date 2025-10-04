@@ -4,20 +4,17 @@ import {
   generateRecipeFromIngredients,
   GenerateRecipeFromIngredientsOutput,
 } from '@/ai/flows/generate-recipe-from-ingredients';
-import { displayNutritionalInformation } from '@/ai/flows/display-nutritional-information';
 import { z } from 'zod';
 
 const inputSchema = z.object({
   ingredients: z.string().min(3, { message: 'Please enter at least three characters worth of ingredients.' }),
 });
 
-export type RecipeData = GenerateRecipeFromIngredientsOutput & { curatedNutritionalInfo: string };
-
 export type RecipeState = {
   formErrors?: {
     ingredients?: string[];
   };
-  recipe?: RecipeData;
+  recipe?: GenerateRecipeFromIngredientsOutput;
   error?: string | null;
 };
 
@@ -44,15 +41,8 @@ export async function getRecipeAction(
       return { error: 'Could not generate a recipe with these ingredients. Please try again with different or more ingredients.' };
     }
 
-    const recipeString = `Recipe: ${recipeData.recipeName}\n\nIngredients:\n${recipeData.ingredients}\n\nInstructions:\n${recipeData.instructions}`;
-
-    const nutritionalInfo = await displayNutritionalInformation({ recipe: recipeString });
-
     return {
-      recipe: {
-        ...recipeData,
-        curatedNutritionalInfo: nutritionalInfo.nutritionalInformation,
-      },
+      recipe: recipeData,
     };
   } catch (e) {
     console.error(e);
