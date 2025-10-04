@@ -1,12 +1,12 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
 import { getRecipeAction, type RecipeState } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { RecipeDisplay } from './recipe-display';
-import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -67,7 +67,7 @@ function RecipeLoadingSkeleton() {
 }
 
 export function RecipeGenerator() {
-  const [state, formAction] = useFormState(getRecipeAction, initialState);
+  const [state, formAction] = useActionState(getRecipeAction, initialState);
   const { toast } = useToast();
 
   useEffect(() => {
