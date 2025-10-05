@@ -1,7 +1,9 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { GenerateRecipeFromIngredientsOutput } from '@/ai/flows/generate-recipe-from-ingredients';
 import { Separator } from './ui/separator';
-import { useI18n } from '@/locales/client';
+import { useI18n } from 'next-international/client';
 
 const formatTextBlock = (text: string | undefined) => {
   if (!text) return null;

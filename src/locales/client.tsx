@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { I18nProvider, useI18n } from 'react-aria'
+import { I18nProviderClient as I18nProvider } from 'next-international/client';
 
 export function I18nProviderClient({
   locale,
@@ -11,5 +11,3 @@ export function I18nProviderClient({
 }) {
   return <I18nProvider locale={locale}>{children}</I18nProvider>
 }
-
-export { useI18n }

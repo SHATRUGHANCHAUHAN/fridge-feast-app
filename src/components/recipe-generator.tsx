@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { usePathname, useRouter } from 'next/navigation';
-import { useI18n } from '@/locales/client';
+import { useI18n } from 'next-international/client';
 
 const initialState: RecipeState = {};
 
