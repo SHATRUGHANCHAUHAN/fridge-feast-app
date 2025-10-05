@@ -15,6 +15,7 @@ const GenerateRecipeFromIngredientsInputSchema = z.object({
   ingredients: z
     .string()
     .describe('A comma-separated list of ingredients the user has on hand.'),
+  language: z.string().describe('The language to generate the recipe in.'),
 });
 
 export type GenerateRecipeFromIngredientsInput = z.infer<
@@ -44,7 +45,7 @@ const prompt = ai.definePrompt({
   name: 'generateRecipeFromIngredientsPrompt',
   input: {schema: GenerateRecipeFromIngredientsInputSchema},
   output: {schema: GenerateRecipeFromIngredientsOutputSchema},
-  prompt: `You are a professional chef. Generate a recipe based on the ingredients provided by the user.
+  prompt: `You are a professional chef. Generate a recipe in {{{language}}} based on the ingredients provided by the user.
 
   Ingredients: {{{ingredients}}}
 

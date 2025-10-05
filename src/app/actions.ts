@@ -4,6 +4,7 @@ import {
   generateRecipeFromIngredients,
   GenerateRecipeFromIngredientsOutput,
 } from '@/ai/flows/generate-recipe-from-ingredients';
+import { getCurrentLocale } from '@/locales/server';
 import { z } from 'zod';
 
 const inputSchema = z.object({
@@ -31,10 +32,12 @@ export async function getRecipeAction(
       formErrors: validatedFields.error.flatten().fieldErrors,
     };
   }
+  const locale = await getCurrentLocale();
 
   try {
     const recipeData = await generateRecipeFromIngredients({
       ingredients: validatedFields.data.ingredients,
+      language: locale,
     });
 
     if (!recipeData || !recipeData.recipeName) {
