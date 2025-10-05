@@ -4,10 +4,12 @@ import {
   generateRecipeFromIngredients,
   GenerateRecipeFromIngredientsOutput,
 } from '@/ai/flows/generate-recipe-from-ingredients';
+import { getI18n } from '@/locales/server';
 import { z } from 'zod';
 
 const inputSchema = z.object({
   ingredients: z.string().min(3, { message: 'Please enter at least three characters worth of ingredients.' }),
+  language: z.string(),
 });
 
 export type RecipeState = {
@@ -24,6 +26,7 @@ export async function getRecipeAction(
 ): Promise<RecipeState> {
   const validatedFields = inputSchema.safeParse({
     ingredients: formData.get('ingredients'),
+    language: formData.get('language'),
   });
 
   if (!validatedFields.success) {
@@ -35,11 +38,13 @@ export async function getRecipeAction(
   try {
     const recipeData = await generateRecipeFromIngredients({
       ingredients: validatedFields.data.ingredients,
-      language: 'en',
+      language: validatedFields.data.language,
     });
 
+    const t = await getI18n();
+
     if (!recipeData || !recipeData.recipeName) {
-      return { error: 'Could not generate a recipe with these ingredients. Please try again with different or more ingredients.' };
+      return { error: t('recipe.error.generation') };
     }
 
     return {
@@ -47,6 +52,7 @@ export async function getRecipeAction(
     };
   } catch (e) {
     console.error(e);
-    return { error: 'An unexpected error occurred while generating your recipe. Please try again later.' };
+    const t = await getI18n();
+    return { error: t('recipe.error.unexpected') };
   }
 }

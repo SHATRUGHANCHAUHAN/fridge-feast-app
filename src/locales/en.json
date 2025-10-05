@@ -1,0 +1,37 @@
+{
+  "header": {
+    "title": "Fridge Feast",
+    "subtitle": "Turn your leftover ingredients into delicious meals. What will you create today?"
+  },
+  "recipe": {
+    "title": "What's in your fridge?",
+    "description": "List the ingredients you have, separating them with commas, and we'll whip up a recipe for you.",
+    "ingredientsLabel": "Ingredients",
+    "ingredientsPlaceholder": "e.g., chicken breast, broccoli, soy sauce, rice",
+    "button": {
+      "generate": "Generate Recipe",
+      "pending": "Generating Your Feast..."
+    },
+    "display": {
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "nutritionalInfo": "Nutritional Information"
+    },
+    "error": {
+      "generation": "Could not generate a recipe with these ingredients. Please try again with different or more ingredients.",
+      "unexpected": "An unexpected error occurred while generating your recipe. Please try again later."
+    },
+    "language": "English"
+  },
+  "toast": {
+    "error": {
+      "title": "Error"
+    },
+    "invalidInput": {
+      "title": "Invalid Input"
+    }
+  },
+  "language": {
+    "change": "Change Language"
+  }
+}

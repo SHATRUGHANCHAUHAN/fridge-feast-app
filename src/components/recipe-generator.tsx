@@ -11,15 +11,17 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from './ui/skeleton';
 import { Bot } from 'lucide-react';
+import { useI18n, useScopedI18n } from '@/locales/client';
 
 const initialState: RecipeState = {};
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  const t = useI18n();
   return (
     <Button type="submit" disabled={pending} className="w-full sm:w-auto">
       <Bot className="mr-2 h-4 w-4" />
-      {pending ? 'Generating Your Feast...' : 'Generate Recipe'}
+      {pending ? t('recipe.button.pending') : t('recipe.button.generate')}
     </Button>
   );
 }
@@ -39,6 +41,7 @@ function ResultContainer({ state }: { state: RecipeState }) {
 }
 
 function RecipeLoadingSkeleton() {
+  const t = useScopedI18n('recipe.skeleton');
   return (
     <Card className="animate-pulse">
       <CardHeader>
@@ -69,43 +72,45 @@ function RecipeLoadingSkeleton() {
 export function RecipeGenerator() {
   const [state, formAction] = useActionState(getRecipeAction, initialState);
   const { toast } = useToast();
-
+  const t = useI18n();
+  const scopedT = useScopedI18n('recipe');
 
   useEffect(() => {
     if (state.error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
+        title: t('toast.error.title'),
         description: state.error,
       });
     } else if (state.formErrors?.ingredients) {
       toast({
         variant: 'destructive',
-        title: 'Invalid Input',
+        title: t('toast.invalidInput.title'),
         description: state.formErrors.ingredients.join(', '),
       });
     }
-  }, [state, toast]);
+  }, [state, toast, t]);
 
   return (
     <form action={formAction} className="max-w-4xl mx-auto space-y-8">
+      <input type="hidden" name="language" value={t('recipe.language')} />
       <Card className="shadow-lg">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-semibold font-headline">What's in your fridge?</CardTitle>
+            <CardTitle className="text-2xl font-semibold font-headline">{scopedT('title')}</CardTitle>
           </div>
           <CardDescription>
-            List the ingredients you have, separating them with commas, and we'll whip up a recipe for you.
+            {scopedT('description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="ingredients" className="sr-only">Ingredients</Label>
+              <Label htmlFor="ingredients" className="sr-only">{scopedT('ingredientsLabel')}</Label>
               <Textarea
                 id="ingredients"
                 name="ingredients"
-                placeholder="e.g., chicken breast, broccoli, soy sauce, rice"
+                placeholder={scopedT('ingredientsPlaceholder')}
                 rows={4}
                 className="text-base"
                 required

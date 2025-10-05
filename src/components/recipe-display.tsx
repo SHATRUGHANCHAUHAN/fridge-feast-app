@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { GenerateRecipeFromIngredientsOutput } from '@/ai/flows/generate-recipe-from-ingredients';
 import { Separator } from './ui/separator';
+import { useScopedI18n } from '@/locales/client';
 
 const formatTextBlock = (text: string | undefined) => {
   if (!text) return null;
@@ -53,6 +54,7 @@ const formatInstructions = (text: string | undefined) => {
 
 export function RecipeDisplay({ recipe }: { recipe: GenerateRecipeFromIngredientsOutput }) {
   const nutritionalInfo = recipe.nutritionalInformation;
+  const t = useScopedI18n('recipe.display');
 
   return (
     <Card className="shadow-lg animate-in fade-in-0 zoom-in-95 duration-500">
@@ -61,19 +63,19 @@ export function RecipeDisplay({ recipe }: { recipe: GenerateRecipeFromIngredient
       </CardHeader>
       <CardContent className="space-y-6 text-base">
         <div>
-          <h3 className="font-semibold text-xl mb-3 font-headline">Ingredients</h3>
+          <h3 className="font-semibold text-xl mb-3 font-headline">{t('ingredients')}</h3>
           {formatList(recipe.ingredients)}
         </div>
         <Separator />
         <div>
-          <h3 className="font-semibold text-xl mb-4 font-headline">Instructions</h3>
+          <h3 className="font-semibold text-xl mb-4 font-headline">{t('instructions')}</h3>
           {formatInstructions(recipe.instructions)}
         </div>
         {nutritionalInfo && (
           <>
             <Separator />
             <div>
-              <h3 className="font-semibold text-xl mb-3 font-headline">Nutritional Information</h3>
+              <h3 className="font-semibold text-xl mb-3 font-headline">{t('nutritionalInfo')}</h3>
               <div className="text-muted-foreground space-y-2">
                 {formatTextBlock(nutritionalInfo)}
               </div>
