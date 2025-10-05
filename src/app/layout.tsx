@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster"
-import { I18nProviderClient } from '@/locales/client';
+import { I18nProviderClient } from 'next-international/client';
 import './globals.css';
 import { getStaticParams } from '@/locales/server';
 
