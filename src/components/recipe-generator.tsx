@@ -11,25 +11,15 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from './ui/skeleton';
 import { Bot } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { usePathname, useRouter } from 'next/navigation';
-import { useI18n } from 'next-international/client';
 
 const initialState: RecipeState = {};
 
 function SubmitButton() {
   const { pending } = useFormStatus();
-  const t = useI18n();
   return (
     <Button type="submit" disabled={pending} className="w-full sm:w-auto">
       <Bot className="mr-2 h-4 w-4" />
-      {pending ? t('recipe.generator.submit.pending.label') : t('recipe.generator.submit.label')}
+      {pending ? 'Generating Your Feast...' : 'Generate Recipe'}
     </Button>
   );
 }
@@ -76,46 +66,9 @@ function RecipeLoadingSkeleton() {
   );
 }
 
-const languages = [
-  { value: 'en', label: 'English' },
-  { value: 'hi', label: 'Hindi' },
-  { value: 'te', label: 'Telugu' },
-  { value: 'gu', label: 'Gujarati' },
-  { value: 'mr', label: 'Marathi' },
-]
-
-function LanguageSwitcher() {
-  const pathname = usePathname()
-  const router = useRouter()
-  const currentLang = pathname.split('/')[1] || 'en'
-  const t = useI18n();
-
-
-  const handleLanguageChange = (lang: string) => {
-    const newPath = `/${lang}`
-    router.replace(newPath)
-  }
-
-  return (
-    <Select onValueChange={handleLanguageChange} defaultValue={currentLang}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder={t('language.switcher.placeholder')} />
-      </SelectTrigger>
-      <SelectContent>
-        {languages.map((lang) => (
-          <SelectItem key={lang.value} value={lang.value}>
-            {lang.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  )
-}
-
 export function RecipeGenerator() {
   const [state, formAction] = useActionState(getRecipeAction, initialState);
   const { toast } = useToast();
-  const t = useI18n();
 
 
   useEffect(() => {
@@ -139,11 +92,10 @@ export function RecipeGenerator() {
       <Card className="shadow-lg">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-semibold font-headline">{t('recipe.generator.title')}</CardTitle>
-            <LanguageSwitcher />
+            <CardTitle className="text-2xl font-semibold font-headline">What's in your fridge?</CardTitle>
           </div>
           <CardDescription>
-            {t('recipe.generator.description')}
+            List the ingredients you have, separating them with commas, and we'll whip up a recipe for you.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -153,7 +105,7 @@ export function RecipeGenerator() {
               <Textarea
                 id="ingredients"
                 name="ingredients"
-                placeholder={t('recipe.generator.placeholder')}
+                placeholder="e.g., chicken breast, broccoli, soy sauce, rice"
                 rows={4}
                 className="text-base"
                 required
