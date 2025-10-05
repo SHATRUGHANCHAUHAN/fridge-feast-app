@@ -1,15 +1,18 @@
-import { RecipeGenerator } from '@/components/recipe-generator';
-import { Logo } from '@/components/icons/logo';
 import { getI18n, getStaticParams } from '@/locales/server';
 import { I18nProviderClient } from '@/locales/client';
-import { use } from 'react';
+import { Logo } from '@/components/icons/logo';
+import { RecipeGenerator } from '@/components/recipe-generator';
 
 export function generateStaticParams() {
   return getStaticParams();
 }
 
-export default function Home({ params: { locale } }: { params: { locale: string } }) {
-  const t = use(getI18n());
+export default async function Home({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getI18n();
 
   return (
     <I18nProviderClient locale={locale}>

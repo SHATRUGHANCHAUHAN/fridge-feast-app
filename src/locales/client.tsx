@@ -1,7 +1,7 @@
 'use client';
 
+import { ReactNode } from 'react';
 import { I18nProvider } from 'next-international/client';
-import type { ReactNode } from 'react';
 
 export function I18nProviderClient({
   locale,
